@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-@Entity // Héritage dans une seule table
+@Entity
 @Getter @Setter
 @Table(name = "Information")
 public class Information {
