@@ -1,6 +1,8 @@
 package com.example.E_care.Cours.models;
 
 
+import java.util.List;
+import com.example.E_care.media.models.MediaCours;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,8 +28,8 @@ public class Cours {
     @JoinColumn(name = "categorie_id", nullable = false)
     private Categorie categorie;
 
-    @Column(name = "media", nullable = true)
-    private String url; // 
+    @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MediaCours> medias;
 
 
 }
