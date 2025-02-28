@@ -35,6 +35,10 @@ public class User {
     @Column(name = "profil", nullable = false)
     private String url;
 
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
    
 
 }

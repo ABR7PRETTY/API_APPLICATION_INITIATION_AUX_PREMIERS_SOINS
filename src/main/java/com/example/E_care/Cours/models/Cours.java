@@ -2,7 +2,9 @@ package com.example.E_care.Cours.models;
 
 
 import java.util.List;
-import com.example.E_care.media.models.MediaCours;
+import com.example.E_care.media.models.Media;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +31,8 @@ public class Cours {
     private Categorie categorie;
 
     @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MediaCours> medias;
+    @JsonManagedReference
+    private List<Media> medias;
 
 
 }

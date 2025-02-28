@@ -18,12 +18,6 @@ public class NumerosVerts {
     @Column(name = "numero", nullable = false, unique = true)
     private String numero;
 
-    @Column(name = "hopital", nullable = true)
-    private String hopital;
-
     @Column(name = "description", nullable = true)
     private String description;
-
-
-
 }

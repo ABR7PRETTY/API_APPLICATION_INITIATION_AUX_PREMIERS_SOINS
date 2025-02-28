@@ -1,6 +1,9 @@
 package com.example.E_care.media.models;
 
 import com.example.E_care.Cours.models.Cours;
+import com.example.E_care.Cours.models.Information;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +11,8 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@Table(name = "media_cours")
-public class MediaCours {
+@Table(name = "media")
+public class Media {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +25,18 @@ public class MediaCours {
     @Column(name = "type", nullable = false)
     private String type;
 
+    @Enumerated(EnumType.STRING)
+    private MediaType mediaType; // COURS ou INFORMATION
+
     @ManyToOne
-    @JoinColumn(name = "cours_id", nullable = false)
+    @JsonBackReference
+    @JoinColumn(name = "cours_id", nullable = true)
     private Cours cours;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "information_id", nullable = true)
+    private Information informations;
+
     
 }

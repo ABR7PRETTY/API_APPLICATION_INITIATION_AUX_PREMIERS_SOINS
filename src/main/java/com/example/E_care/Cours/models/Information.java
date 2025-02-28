@@ -2,7 +2,7 @@ package com.example.E_care.Cours.models;
 
 
 import java.util.List;
-import com.example.E_care.media.models.MediaInfo;
+import com.example.E_care.media.models.Media;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,8 +24,8 @@ public class Information {
     @Column(name = "contenu", nullable = false)
     private String contenu;
 
-    @OneToMany(mappedBy = "info", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MediaInfo> medias;
+    @OneToMany(mappedBy = "informations", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Media> medias;
 
 
 }

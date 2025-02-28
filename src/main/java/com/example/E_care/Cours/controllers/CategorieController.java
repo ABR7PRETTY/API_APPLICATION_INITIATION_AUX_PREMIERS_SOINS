@@ -31,12 +31,12 @@ public class CategorieController {
         return categories;
     }
 
-    @PutMapping(value = "/update/{id}", headers = "Accept=application/json")
+    @PutMapping(value = "admin/update/{id}", headers = "Accept=application/json")
     public ResponseEntity<Categorie> update(@PathVariable("id") Long id, @RequestBody Categorie categorie){
         return ResponseEntity.status(HttpStatus.OK).body(this.categorieService.update(id, categorie));
     }
 
-    @PostMapping(value = "/save", headers = "Accept=application/json")
+    @PostMapping(value = "admin/save", headers = "Accept=application/json")
     public Categorie save(@RequestBody Categorie categorie) {
         try {
             categorie = this.categorieService.save(categorie);
@@ -46,7 +46,7 @@ public class CategorieController {
         return categorie;
     }
 
-    @DeleteMapping(value="/delete/{id}", headers ="Accept=application/json")
+    @DeleteMapping(value="admin/delete/{id}", headers ="Accept=application/json")
     public ResponseEntity<?>delete(@PathVariable Long id){
         try{
             Boolean resultat = this.categorieService.deleteById(id);
@@ -65,3 +65,5 @@ public class CategorieController {
 
 
 }
+
+
