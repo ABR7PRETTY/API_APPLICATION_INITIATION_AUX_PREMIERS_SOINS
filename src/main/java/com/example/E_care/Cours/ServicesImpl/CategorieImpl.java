@@ -3,11 +3,13 @@ package com.example.E_care.Cours.ServicesImpl;
 import com.example.E_care.Cours.dao.CategorieDao;
 import com.example.E_care.Cours.models.Categorie;
 import com.example.E_care.Cours.Services.CategorieService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service(value = "categorieService")
 public class CategorieImpl implements CategorieService {
@@ -24,6 +26,11 @@ public class CategorieImpl implements CategorieService {
         return this.categorieDao.save(categorie);
     }
 
+    @Override
+    public Categorie findCategorie(Long id) {
+        return this.categorieDao.findById(id).get();
+    }
+
 
     @Override
     public Boolean deleteById(Long id)  {
@@ -38,11 +45,32 @@ public class CategorieImpl implements CategorieService {
     }
 
     @Override
-    public Categorie update(Long id, Categorie categorie)  {
-        Categorie CategorieExecting = this.categorieDao.findById(id).orElseThrow(()->new RuntimeException("Classe not found"));
-        BeanUtils.copyProperties(categorie, CategorieExecting);
-        return
-                this.categorieDao.save(CategorieExecting);
+    public Categorie update(Long id, String titre, String description, MultipartFile image){
+        Optional<Categorie> optionalCategorie = categorieDao.findById(id);
+        if (optionalCategorie.isPresent()) {
+            Categorie categorie = optionalCategorie.get();
+            categorie.setTitre(titre);
+            categorie.setDescription(description);
+
+            // Vérifie si une nouvelle image est envoyée
+            if (image != null && !image.isEmpty()) {
+                try {
+                    categorie.setImage(image.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return categorieDao.save(categorie);
+        }
+        else {
+            return null;
+    }
+}
+
+    @Override
+    public Long getTotalCategorie(){
+        return this.categorieDao.count();
     }
 
 

@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.example.E_care.Utilisateurs.Authentification.Service.UserDetailsServiceImpl;
+import com.example.E_care.Utilisateurs.Service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -34,9 +34,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors(cors -> cors.disable())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/ws/**").permitAll()
+                .requestMatchers("/free/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN") // Accessible uniquement aux Admins
                 .requestMatchers("/apprenant/**").hasRole("APPRENANT") // Accessible uniquement aux Apprenants
                 .anyRequest().authenticated()

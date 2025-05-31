@@ -7,16 +7,16 @@ import com.example.E_care.media.models.MediaType;
 import com.example.E_care.Cours.dao.CategorieDao;
 import com.example.E_care.media.dao.MediaDao;
 import com.example.E_care.Cours.dto.CoursDto;
-import com.example.E_care.media.dto.MediaDto;
 import com.example.E_care.Cours.dao.CoursDao;
 import com.example.E_care.Cours.Services.CoursService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 
@@ -40,7 +40,7 @@ public class CoursImpl implements CoursService{
     }
 
     @Override
-    public Cours save(CoursDto coursDto) {
+    public Cours save(CoursDto coursDto, List<MultipartFile> mediasFiles) {
         Optional<Categorie> categorieOpt = categorieDao.findById(coursDto.getCategorieId());
         if (categorieOpt.isEmpty()) {
             throw new RuntimeException("Catégorie introuvable");
@@ -55,18 +55,29 @@ public class CoursImpl implements CoursService{
         Cours savedCours = coursDao.save(cours);
 
         // Ajouter les médias liés
-        List<Media> medias = new ArrayList<>();
-        for (MediaDto mediaDto : coursDto.getMedias()) {
-            Media media = new Media();
-            media.setUrl(mediaDto.getUrl());
-            media.setType(mediaDto.getType()); // Ajout du type
-            media.setMediaType(MediaType.COURS);
-            media.setCours(savedCours);
-            medias.add(media);
+        // Vérifie si des fichiers sont envoyés
+        if (mediasFiles == null || mediasFiles.isEmpty()) {
+            return savedCours; // Pas de fichiers à traiter
+        }else {
+            // Traite les fichiers envoyés
+            List<Media> medias = new ArrayList<>();
+            for (MultipartFile mediafile : mediasFiles) {
+                Media media = new Media();
+                try {
+                    media.setFichier(mediafile.getBytes());
+                } catch (Exception e) {
+                    throw new RuntimeException("Error reading media file", e);
+                }
+                media.setType(mediafile.getContentType()); // Ajout du type
+                media.setMediaType(MediaType.COURS);
+                media.setCours(savedCours);
+                medias.add(media);
+            }
+    
+            // Sauvegarde des médias
+            mediaDao.saveAll(medias);
         }
-
-        // Sauvegarde des médias
-        mediaDao.saveAll(medias);
+        
 
         return savedCours;
     }
@@ -83,52 +94,64 @@ public class CoursImpl implements CoursService{
         }
         return result;
     }
-
-    @Override
-    public Cours update(Long id, CoursDto coursDto) {
-        // Vérifier si la catégorie existe
-        Optional<Categorie> categorieOpt = categorieDao.findById(coursDto.getCategorieId());
-        if (categorieOpt.isEmpty()) {
-            throw new RuntimeException("Catégorie introuvable");
-        }
-    
-        // Récupérer le cours existant
-        Cours coursExistant = coursDao.findById(id)
-            .orElseThrow(() -> new RuntimeException("Cours introuvable"));
-    
-        // Mettre à jour les champs de base
-        coursExistant.setTitre(coursDto.getTitre());
-        coursExistant.setContenu(coursDto.getContenu());
-        coursExistant.setCategorie(categorieOpt.get());
-    
-        // Mise à jour des médias
-        if (coursDto.getMedias() != null) {
-            // Supprimer les anciens médias proprement
-            coursExistant.getMedias().clear();
-    
-            // Ajouter les nouveaux médias
-            List<Media> medias = coursDto.getMedias().stream().map(mediaDto -> {
-                Media media = new Media();
-                media.setUrl(mediaDto.getUrl());
-                media.setType(mediaDto.getType());
-                media.setMediaType(MediaType.COURS);
-                media.setCours(coursExistant);
-                return media;
-            }).collect(Collectors.toList());
-    
-            coursExistant.getMedias().addAll(medias);
-        }
-    
-        // Sauvegarder l'entité mise à jour
-        return coursDao.save(coursExistant);
-    }
     
 
     @Override
-    public List<Cours> findByCategorie(Categorie categorie){
-       return
-            this.coursDao.findByCategorie(categorie); 
+    public List<Cours> findByCategorie(Long categorieId){
+
+        Categorie categorie = categorieDao.findById(categorieId)
+            .orElseThrow(() -> new RuntimeException("Categorie introuvable"));
+            return
+            this.coursDao.findByCategorie(categorie);
+        }
+
+    @Override
+    public Long getTotalCours() {
+         return coursDao.count();
     }
-    
+
+    @Override
+    public Cours update(Long id, String titre, String contenu, Long categorieId, List<MultipartFile> medias){
+        Optional<Cours> optionalCours = coursDao.findById(id);
+        if (optionalCours.isPresent()) {
+            Optional<Categorie> Optionalcategorie = categorieDao.findById(categorieId);
+            Cours cours = optionalCours.get();
+            if (Optionalcategorie.isPresent()) {
+                cours.setCategorie(Optionalcategorie.get());
+                }
+            cours.setTitre(titre);
+            cours.setContenu(contenu);
+
+            // Vérifie si une nouvelle image est envoyée
+            if (medias == null || medias.isEmpty()) {
+                return coursDao.save(cours); // Pas de fichiers à traiter
+            } else {
+
+                List<Media> files = new ArrayList<>();
+                try {
+                    for(MultipartFile media : medias){
+                        Media file = new Media();
+                        file.setCours(cours);
+                        file.setFichier(media.getBytes());
+                        file.setType(media.getContentType());
+                        file.setMediaType(MediaType.COURS);
+
+                        files.add(file);
+                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                    cours.getMedias().clear();
+                    cours.getMedias().addAll(files);
+
+            return coursDao.save(cours);
+        }}
+        else {
+            return null;
+    }
 }
+        
+    }
+    
 

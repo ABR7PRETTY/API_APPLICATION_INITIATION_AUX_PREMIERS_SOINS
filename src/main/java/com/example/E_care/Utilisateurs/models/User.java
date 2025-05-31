@@ -29,11 +29,13 @@ public class User {
     @Column(name = "prenom", nullable = false)
     private String prenom;
 
-    @Column(name = "telephone", nullable = false)
-    private String telephone;
+    @Column(name = "statut", nullable = false)
+    private boolean statut = true;
 
-    @Column(name = "profil", nullable = false)
-    private String url;
+    @Lob  // Large Object Binary
+    @Basic(fetch = FetchType.LAZY) // Permet d'optimiser la récupération des images
+    @Column(columnDefinition = "LONGBLOB", nullable= true) // Définit le type BLOB pour stocker de grandes images
+    private byte[] profil;
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)

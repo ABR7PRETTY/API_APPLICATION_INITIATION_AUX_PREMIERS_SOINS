@@ -29,6 +29,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
+        String requestPath = request.getServletPath();
+
+                // 🛑 Exclure l'authentification pour `/api/auth/login`
+        if (requestPath.startsWith("/api/auth/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String jwt = extractJwtFromRequest(request);
 
         if (jwt == null || jwt.isEmpty()) {
@@ -38,7 +46,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         if (jwt != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+            String username = jwtUtils.getUsernameFromJwtToken(jwt);
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 

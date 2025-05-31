@@ -20,7 +20,7 @@ import com.example.E_care.Urgence.models.NumerosVerts;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "service/numeroVert")
+@RequestMapping(value = "free/service/numero")
 public class NumeroVertController {
     @Autowired
     @Qualifier("numeroVertService")
@@ -39,17 +39,17 @@ public class NumeroVertController {
 
     @PostMapping(value = "/save" , headers = "Accept=Application/json")
     public NumerosVerts save(@RequestBody NumerosVerts numerosVerts){
-        NumerosVerts nouveauNumero = new NumerosVerts();
         try{
-            nouveauNumero = this.numeroVertService.save(numerosVerts);
+            numerosVerts.setId(null);
+            numerosVerts = this.numeroVertService.save(numerosVerts);
         }catch(Exception e){
             e.printStackTrace();
         }
-        return nouveauNumero;
+        return numerosVerts;
     }
 
     @PutMapping(value = "update/{id}" , headers = "Accept=Application/json")
-    public NumerosVerts save(@PathVariable Long id, @RequestBody NumerosVerts numerosVerts){
+    public NumerosVerts update(@PathVariable Long id, @RequestBody NumerosVerts numerosVerts){
         NumerosVerts updateNumero = new NumerosVerts();
         try{
             updateNumero = this.numeroVertService.update(id,numerosVerts);

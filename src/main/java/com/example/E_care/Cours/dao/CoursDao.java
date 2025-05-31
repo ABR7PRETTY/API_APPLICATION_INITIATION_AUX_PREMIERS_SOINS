@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface CoursDao extends JpaRepository<Cours,Long> {
     public List<Cours> findByCategorie(Categorie categorie);
-    
 }

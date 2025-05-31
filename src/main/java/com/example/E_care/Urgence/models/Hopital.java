@@ -21,9 +21,17 @@ public class Hopital {
     @Column(name = "localisation", nullable = true)
     private String localisation;
 
+    @Column(name = "latitude", nullable = true)
+    private Double latitude;
+
+    @Column(name = "longitude", nullable = true)
+    private Double longitude;
+
+    @Column(name = "telephone", nullable = true)
+    private String telephone;
+
+
     @Column(name = "description", nullable = true)
     private String description;
-
-
 
 }

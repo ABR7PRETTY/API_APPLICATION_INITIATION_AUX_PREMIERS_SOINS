@@ -1,14 +1,12 @@
 package com.example.E_care.Cours.models;
 
-
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-
-@Entity 
-@Getter @Setter
+@Entity
+@Getter
+@Setter
 @Table(name = "Categorie")
 public class Categorie {
 
@@ -24,8 +22,10 @@ public class Categorie {
     private String description;
     
 
-    @Column(name = "image", nullable = false)
-    private String image; 
+    @Lob  // Large Object Binary
+    @Basic(fetch = FetchType.LAZY) // Permet d'optimiser la récupération des images
+    @Column(columnDefinition = "LONGBLOB") // Définit le type BLOB pour stocker de grandes images
+    private byte[] image;
 
 
 }

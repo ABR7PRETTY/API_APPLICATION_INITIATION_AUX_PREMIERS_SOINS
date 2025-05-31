@@ -1,5 +1,6 @@
 package com.example.E_care.media.models;
 
+import com.example.E_care.Alerte.model.Alerte;
 import com.example.E_care.Cours.models.Cours;
 import com.example.E_care.Cours.models.Information;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -19,8 +20,10 @@ public class Media {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "url", nullable = false, unique = true)
-    private String url;
+    @Lob  // Large Object Binary
+    @Basic(fetch = FetchType.LAZY) // Permet d'optimiser la récupération des images
+    @Column(columnDefinition = "LONGBLOB") // Définit le type BLOB pour stocker de grandes images
+    private byte[] fichier;
 
     @Column(name = "type", nullable = false)
     private String type;
@@ -37,6 +40,11 @@ public class Media {
     @JsonBackReference
     @JoinColumn(name = "information_id", nullable = true)
     private Information informations;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "alerte_id", nullable = true)
+    private Alerte alertes;
 
     
 }

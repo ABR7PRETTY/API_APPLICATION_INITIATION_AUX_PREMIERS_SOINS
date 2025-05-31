@@ -2,6 +2,7 @@ package com.example.E_care.Cours.models;
 
 
 import java.util.List;
+
 import com.example.E_care.media.models.Media;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -23,7 +24,7 @@ public class Cours {
     @Column(name = "titre", nullable = false, unique = true)
     private String titre;
 
-    @Column(name = "contenu", nullable = false)
+    @Column(name = "contenu", nullable = false, columnDefinition = "TEXT")
     private String contenu;
 
     @ManyToOne

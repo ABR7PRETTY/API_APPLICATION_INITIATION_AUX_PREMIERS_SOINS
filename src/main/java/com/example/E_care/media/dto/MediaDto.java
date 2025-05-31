@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter @Setter
 public class MediaDto {
     private Long id;
-    private String url;
+    private byte[] fichier;
     private String type; // IMAGE, VIDEO, PDF...
 }

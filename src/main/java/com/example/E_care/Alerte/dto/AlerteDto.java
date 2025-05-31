@@ -1,22 +1,23 @@
-package com.example.E_care.Cours.dto;
+package com.example.E_care.Alerte.dto;
 
 
 import com.example.E_care.media.dto.MediaDto;
 
-import java.util.Date;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class InfoDto {
+public class AlerteDto {
     private Long id;
     private String titre;
     private String contenu;
-    private Date date_ajout;
-    private LocalDate date_fin;
+    private String localisation;
+    private boolean statut;
+    private Double latitude;
+    private Double longitude;
+    private Long userId;
     private List<MediaDto> medias; // Liste des médias avec type
 }
 

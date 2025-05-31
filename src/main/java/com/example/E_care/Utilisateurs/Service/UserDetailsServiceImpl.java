@@ -1,6 +1,6 @@
-package com.example.E_care.Utilisateurs.Authentification.Service;
+package com.example.E_care.Utilisateurs.Service;
 
-import com.example.E_care.Utilisateurs.Authentification.Dao.UserDao;
+import com.example.E_care.Utilisateurs.dao.UserDao;
 import com.example.E_care.Utilisateurs.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

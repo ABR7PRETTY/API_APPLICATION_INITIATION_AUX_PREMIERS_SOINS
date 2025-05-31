@@ -21,7 +21,7 @@ import com.example.E_care.Urgence.models.Hopital;
 
 @RestController
 @CrossOrigin
-@RequestMapping("service/hopital")
+@RequestMapping("free/service/hopital")
 public class HopitalController {
 
     @Autowired
@@ -42,13 +42,13 @@ public class HopitalController {
 
     @PostMapping(value = "/save", headers = "Accept=application/json")
     public Hopital save(@RequestBody Hopital hopital){
-        Hopital nouveauhopital = new Hopital();
         try{
-            nouveauhopital = this.hopitalService.save(hopital);
+            hopital.setId(null);
+            hopital = this.hopitalService.save(hopital);
         }catch(Exception e){
             e.printStackTrace();
         }
-        return nouveauhopital;
+        return hopital;
 
     }
 
