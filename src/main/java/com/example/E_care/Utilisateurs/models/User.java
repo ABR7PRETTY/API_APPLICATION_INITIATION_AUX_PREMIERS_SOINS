@@ -9,7 +9,7 @@ import lombok.Setter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // Héritage dans une seule table
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @Getter @Setter
-@Table(name = "User")
+@Table(name = "Utilisateur")
 public class User {
 
     @Id
