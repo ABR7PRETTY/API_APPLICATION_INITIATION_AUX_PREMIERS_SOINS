@@ -24,7 +24,7 @@ public class Categorie {
 
     @Lob  // Large Object Binary
     @Basic(fetch = FetchType.LAZY) // Permet d'optimiser la récupération des images
-    @Column(columnDefinition = "bytea") // Définit le type BLOB pour stocker de grandes images
+    @Column(columnDefinition = "bytea") // Définit le type BLOB pour stocker de grandes images columnDefinition = "LONGBLOB"
     private byte[] image;
 
 

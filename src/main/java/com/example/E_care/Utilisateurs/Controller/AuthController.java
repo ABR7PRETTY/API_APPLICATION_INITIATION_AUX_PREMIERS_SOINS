@@ -18,6 +18,7 @@ import com.example.E_care.Urgence.models.Hopital;
 import com.example.E_care.Utilisateurs.Authentification.Config.JwtUtils;
 import com.example.E_care.Utilisateurs.dao.UserDao;
 import com.example.E_care.Utilisateurs.models.Administrateur;
+import com.example.E_care.Utilisateurs.models.SuperAdmin;
 import com.example.E_care.Utilisateurs.models.Apprenant;
 import com.example.E_care.Utilisateurs.models.LoginDto;
 import com.example.E_care.Utilisateurs.models.Role;
@@ -87,25 +88,26 @@ public class AuthController {
             @RequestParam("nom") String nom,
             @RequestParam("prenom") String prenom,
             @RequestParam("email") String email,
-            @RequestParam(name = "profil", required = false) MultipartFile profil,
-            @RequestParam("hopitalId") Long hopitalId
+            @RequestParam(name = "profil", required = false) MultipartFile profil
+            // @RequestParam("hopitalId") Long hopitalId
     ) {
-        Administrateur admin = new Administrateur();
+        SuperAdmin admin = new SuperAdmin();
+        // Administrateur admin = new Administrateur();
       
 
-        Optional<Hopital> hopitalOpt = hopitalDao.findById(hopitalId);
-        if (hopitalOpt.isEmpty()) {
-        throw new RuntimeException("Hopital introuvable");
-        }
+        //Optional<Hopital> hopitalOpt = hopitalDao.findById(hopitalId);
+        //if (hopitalOpt.isEmpty()) {
+        //throw new RuntimeException("Hopital introuvable");
+        //}
 
-        admin.setHopital(hopitalOpt.get());
+        // admin.setHopital(hopitalOpt.get());
         try {
             admin.setUsername(username);
             admin.setNom(nom);
             admin.setPrenom(prenom);
             admin.setEmail(email);
             admin.setPassword(passwordEncoder.encode(password));
-            admin.setRole(Role.ADMIN);
+            admin.setRole(Role.SUPERADMIN);
             if (profil != null && !profil.isEmpty()) {
                 admin.setProfil(profil.getBytes());
             } else {
