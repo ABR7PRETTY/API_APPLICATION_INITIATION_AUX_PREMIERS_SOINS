@@ -110,6 +110,7 @@ public class AuthController {
             admin.setRole(Role.SUPERADMIN);
             if (profil != null && !profil.isEmpty()) {
                 admin.setProfil(profil.getBytes());
+                System.err.println("Profil image byte: " + profil.getBytes());
             } else {
                 admin.setProfil(null); // ou une valeur par défaut
             }
