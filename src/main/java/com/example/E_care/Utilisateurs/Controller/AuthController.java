@@ -110,7 +110,7 @@ public class AuthController {
             admin.setRole(Role.SUPERADMIN);
             if (profil != null && !profil.isEmpty()) {
                 admin.setProfil(profil.getBytes());
-                System.err.println("Profil image byte: " + profil.getBytes());
+                System.err.println("Taille du profil image byte: " + profil.getBytes().length);
             } else {
                 admin.setProfil(null); // ou une valeur par défaut
             }
@@ -118,6 +118,7 @@ public class AuthController {
             e.printStackTrace();
         }
 
+        System.err.println("image: " + admin.getProfil());
         userRepository.save(admin);
         return ResponseEntity.ok("Utilisateur enregistré avec succès !");
     }
