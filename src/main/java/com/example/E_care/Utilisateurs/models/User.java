@@ -34,7 +34,7 @@ public class User {
 
     @Lob  // Large Object Binary
     @Basic(fetch = FetchType.LAZY) // Permet d'optimiser la récupération des images
-    @Column(columnDefinition = "bytea", nullable= true) // Définit le type BLOB pour stocker de grandes images columnDefinition = "LONGBLOB"
+    @Column(nullable= true) // Définit le type BLOB pour stocker de grandes images columnDefinition = "LONGBLOB"
     private byte[] profil;
 
     @Column(name = "role", nullable = false)
