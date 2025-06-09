@@ -87,8 +87,8 @@ public class AuthController {
             @RequestParam("password") String password,
             @RequestParam("nom") String nom,
             @RequestParam("prenom") String prenom,
-            @RequestParam("email") String email,
-            @RequestParam(name = "profil", required = false) MultipartFile profil
+            @RequestParam("email") String email
+            // @RequestParam(name = "profil", required = false) MultipartFile profil
             // @RequestParam("hopitalId") Long hopitalId
     ) {
         SuperAdmin admin = new SuperAdmin();
@@ -108,12 +108,12 @@ public class AuthController {
             admin.setEmail(email);
             admin.setPassword(passwordEncoder.encode(password));
             admin.setRole(Role.SUPERADMIN);
-            if (profil != null && !profil.isEmpty()) {
-                admin.setProfil(profil.getBytes());
-                System.err.println("Taille du profil image byte: " + profil.getBytes().length);
-            } else {
-                admin.setProfil(null); // ou une valeur par défaut
-            }
+           // if (profil != null && !profil.isEmpty()) {
+          //      admin.setProfil(profil.getBytes());
+            //    System.err.println("Taille du profil image byte: " + profil.getBytes().length);
+           // } else {
+            //    admin.setProfil(null); // ou une valeur par défaut
+           // }
         } catch (Exception e) {
             e.printStackTrace();
         }
