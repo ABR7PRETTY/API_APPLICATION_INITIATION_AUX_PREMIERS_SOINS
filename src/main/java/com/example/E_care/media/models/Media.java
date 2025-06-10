@@ -22,7 +22,7 @@ public class Media {
 
     @Lob  // Large Object Binary
     @Basic(fetch = FetchType.LAZY) // Permet d'optimiser la récupération des images
-    @Column(columnDefinition = "bytea") // Définit le type BLOB pour stocker de grandes images columnDefinition = "LONGBLOB"
+    @Column(nullable = false) // Définit le type BLOB pour stocker de grandes images columnDefinition = "LONGBLOB"
     private byte[] fichier;
 
     @Column(name = "type", nullable = false)

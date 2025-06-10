@@ -87,20 +87,22 @@ public class AuthController {
             @RequestParam("password") String password,
             @RequestParam("nom") String nom,
             @RequestParam("prenom") String prenom,
-            @RequestParam("email") String email
-            // @RequestParam(name = "profil", required = false) MultipartFile profil
-            // @RequestParam("hopitalId") Long hopitalId
+            @RequestParam("email") String email,
+            @RequestParam(name = "profil", required = false) MultipartFile profil,
+            @RequestParam("hopitalId") Long hopitalId
     ) {
-        SuperAdmin admin = new SuperAdmin();
-        // Administrateur admin = new Administrateur();
+        if (userRepository.existsByUsername(username)) {
+            return ResponseEntity.badRequest().body("Nom d'utilisateur déjà utilisé !");
+        }
+        Administrateur admin = new Administrateur();
       
 
-        //Optional<Hopital> hopitalOpt = hopitalDao.findById(hopitalId);
-        //if (hopitalOpt.isEmpty()) {
-        //throw new RuntimeException("Hopital introuvable");
-        //}
+        Optional<Hopital> hopitalOpt = hopitalDao.findById(hopitalId);
+        if (hopitalOpt.isEmpty()) {
+        throw new RuntimeException("Hopital introuvable");
+        }
 
-        // admin.setHopital(hopitalOpt.get());
+        admin.setHopital(hopitalOpt.get());
         try {
             admin.setUsername(username);
             admin.setNom(nom);
@@ -108,17 +110,15 @@ public class AuthController {
             admin.setEmail(email);
             admin.setPassword(passwordEncoder.encode(password));
             admin.setRole(Role.SUPERADMIN);
-           // if (profil != null && !profil.isEmpty()) {
-          //      admin.setProfil(profil.getBytes());
-            //    System.err.println("Taille du profil image byte: " + profil.getBytes().length);
-           // } else {
-            //    admin.setProfil(null); // ou une valeur par défaut
-           // }
+           if (profil != null && !profil.isEmpty()) {
+                admin.setProfil(profil.getBytes());
+           } else {
+                admin.setProfil(null); // ou une valeur par défaut
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        System.err.println("image: " + admin.getProfil());
         userRepository.save(admin);
         return ResponseEntity.ok("Utilisateur enregistré avec succès !");
     }
