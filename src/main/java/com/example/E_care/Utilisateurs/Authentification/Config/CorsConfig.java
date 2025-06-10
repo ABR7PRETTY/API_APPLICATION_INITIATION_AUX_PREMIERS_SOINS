@@ -13,7 +13,8 @@ public class CorsConfig {
 public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("https://ecare-web-sooty.vercel.app"); // ou "*"
+        //config.addAllowedOrigin("https://ecare-web-sooty.vercel.app"); // ou "*"
+        config.addAllowedOrigin("*"); // Permettre toutes les origines, à ajuster selon vos besoins
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
