@@ -109,7 +109,7 @@ public class AuthController {
             admin.setPrenom(prenom);
             admin.setEmail(email);
             admin.setPassword(passwordEncoder.encode(password));
-            admin.setRole(Role.SUPERADMIN);
+            admin.setRole(Role.ADMIN);
            if (profil != null && !profil.isEmpty()) {
                 admin.setProfil(profil.getBytes());
            } else {
