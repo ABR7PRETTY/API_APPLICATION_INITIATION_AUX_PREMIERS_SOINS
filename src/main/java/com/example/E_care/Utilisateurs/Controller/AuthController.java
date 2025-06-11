@@ -57,6 +57,7 @@ public class AuthController {
     private HopitalDao hopitalDao;
 
     @PostMapping("/login")
+    @Transactional(readOnly = true)
     public ResponseEntity<Map<String, String>> authenticateUser(@RequestBody LoginDto loginDto) {
         try {
             Authentication authentication = authenticationManager.authenticate(
