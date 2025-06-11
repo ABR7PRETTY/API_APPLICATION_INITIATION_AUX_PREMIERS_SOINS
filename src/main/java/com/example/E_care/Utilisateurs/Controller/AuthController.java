@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -206,6 +207,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/findAllAdmins", headers = "Accept=application/json")
+    @Transactional(readOnly = true)
     public ResponseEntity<List<Map<String, Object>>> findAllAdmins() {
         List<Administrateur> users = userRepository.findAllAdmins();
         List<Map<String, Object>> responseList = new ArrayList<>();
