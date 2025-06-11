@@ -164,6 +164,7 @@ public class AuthController {
     }
 
     @PostMapping("/me")
+    @Transactional(readOnly = true)
     public ResponseEntity<?> getUserInfo(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(401).body("Utilisateur non authentifié");
@@ -203,6 +204,7 @@ public class AuthController {
     }
 
     @GetMapping("/countUsers")
+    @Transactional(readOnly = true)
     public Long getTotalUsers() {
         return this.userRepository.count();
     }
@@ -237,6 +239,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/findAllApprenants", headers = "Accept=application/json")
+    @Transactional(readOnly = true)
     public ResponseEntity<List<Map<String, Object>>> findAllApprenants() {
         List<Apprenant> users = userRepository.findAllApprenants();
         List<Map<String, Object>> responseList = new ArrayList<>();
