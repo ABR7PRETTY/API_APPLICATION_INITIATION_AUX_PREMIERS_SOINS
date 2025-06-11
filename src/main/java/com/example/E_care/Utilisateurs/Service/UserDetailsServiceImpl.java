@@ -2,6 +2,9 @@ package com.example.E_care.Utilisateurs.Service;
 
 import com.example.E_care.Utilisateurs.dao.UserDao;
 import com.example.E_care.Utilisateurs.models.User;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserDao userRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Recherche de l'utilisateur par username
         User user = userRepository.findByUsername(username)
