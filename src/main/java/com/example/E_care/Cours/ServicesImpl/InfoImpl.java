@@ -11,6 +11,7 @@ import com.example.E_care.media.models.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class InfoImpl implements InfoService {
     private MediaDao mediaDao;
 
     @Override
+    @Transactional(readOnly = true)
     public Information save(InfoDto infoDto, List<MultipartFile> mediasFiles) {
         
         Information Information = new Information();
@@ -80,6 +82,7 @@ public class InfoImpl implements InfoService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<Information> findInformation(){
         return this.infoDao.findAll();
     }
