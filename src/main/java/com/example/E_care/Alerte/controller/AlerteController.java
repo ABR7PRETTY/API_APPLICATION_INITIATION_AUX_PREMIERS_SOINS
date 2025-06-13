@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -140,6 +141,7 @@ public class AlerteController{
     }
 
     @GetMapping(value = "/findAllByUser", headers = "Accept=application/json")
+    @Transactional
     public ResponseEntity<List<Map<String, Object>>> findAllByUser(Authentication authentication) {
     User user = userRepository.findByUsername(authentication.getName())
             .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));

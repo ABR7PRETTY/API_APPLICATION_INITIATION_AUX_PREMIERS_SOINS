@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,7 @@ public class InfoController {
     private InfoService infoService;
 
     @GetMapping(value = "/findAll", headers = "Accept=application/json")
+    @Transactional
     public ResponseEntity<List<Map<String, Object>>> findAll() {
     List<Information> informations = infoService.findInformation();
     List<Map<String, Object>> responseList = new ArrayList<>();

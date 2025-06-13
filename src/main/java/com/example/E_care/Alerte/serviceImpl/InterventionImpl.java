@@ -15,6 +15,8 @@ import com.example.E_care.Urgence.models.Hopital;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -46,11 +48,13 @@ public class InterventionImpl implements InterventionService{
     }
 
     @Override
+    @Transactional
     public List<Intervention> findAll() {
         return this.interventionRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Intervention> findAllByUser(User user) {
         Apprenant apprenant= (Apprenant) user;
         return this.interventionRepository.findInterventionsByUser(apprenant);
