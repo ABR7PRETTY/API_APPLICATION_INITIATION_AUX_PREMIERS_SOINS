@@ -13,6 +13,7 @@ import com.example.E_care.Alerte.config.AlerteSocketController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class AlerteImpl implements AlerteService {
     private MediaDao mediaDao;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Alerte> findAll() {
         return this.alerteRepository.findActiveAlertes();
     }
@@ -105,6 +107,7 @@ public class AlerteImpl implements AlerteService {
     }
 
     @Override
+    @Transactional
     public List<Alerte> findByUser(Long userId) {
 
         User user = userDao.findById(userId)

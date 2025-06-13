@@ -18,7 +18,6 @@ import com.example.E_care.Urgence.models.Hopital;
 import com.example.E_care.Utilisateurs.Authentification.Config.JwtUtils;
 import com.example.E_care.Utilisateurs.dao.UserDao;
 import com.example.E_care.Utilisateurs.models.Administrateur;
-import com.example.E_care.Utilisateurs.models.SuperAdmin;
 import com.example.E_care.Utilisateurs.models.Apprenant;
 import com.example.E_care.Utilisateurs.models.LoginDto;
 import com.example.E_care.Utilisateurs.models.Role;
