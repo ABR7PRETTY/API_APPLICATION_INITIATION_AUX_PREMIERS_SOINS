@@ -75,6 +75,7 @@ public class AlerteController{
     }
 
     @PostMapping(value = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Transactional
     public Alerte save(@RequestParam("titre") String titre,
         @RequestParam("contenu") String contenu,
         @RequestParam("localisation") String localisation,

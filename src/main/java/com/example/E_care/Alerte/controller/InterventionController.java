@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,6 +39,7 @@ public class InterventionController{
     private UserDao userRepository;
 
     @GetMapping(value = "/findAllByAdmin", headers = "Accept=application/json")
+    @Transactional
     public ResponseEntity<List<Intervention>> findAll(Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName()).get();
         List<Intervention> interventions = interventionService.findAllByAdmin(user);
@@ -53,6 +55,7 @@ public class InterventionController{
     }
 
    @GetMapping(value = "/findAllByUser", headers = "Accept=application/json")
+   @Transactional
     public ResponseEntity<List<Map<String, Object>>> findAllByUser(Authentication authentication) {
     User user = userRepository.findByUsername(authentication.getName())
             .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
