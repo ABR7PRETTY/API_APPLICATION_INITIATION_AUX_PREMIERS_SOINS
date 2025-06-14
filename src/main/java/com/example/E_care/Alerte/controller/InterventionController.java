@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.E_care.Alerte.service.InterventionService;
 import com.example.E_care.Utilisateurs.dao.UserDao;
 import com.example.E_care.Utilisateurs.models.User;
+import com.example.E_care.Alerte.dto.InterventionDto;
 import com.example.E_care.Alerte.model.Intervention;
 
 
@@ -40,9 +41,9 @@ public class InterventionController{
 
     @GetMapping(value = "/findAllByAdmin", headers = "Accept=application/json")
     @Transactional
-    public ResponseEntity<List<Intervention>> findAll(Authentication authentication) {
+    public ResponseEntity<List<InterventionDto>> findAll(Authentication authentication) {
         User user = userRepository.findByUsername(authentication.getName()).get();
-        List<Intervention> interventions = interventionService.findAllByAdmin(user);
+        List<InterventionDto> interventions = interventionService.findAllByAdmin(user);
         
         return ResponseEntity.ok(interventions);
     }

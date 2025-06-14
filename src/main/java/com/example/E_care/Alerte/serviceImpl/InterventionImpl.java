@@ -4,6 +4,7 @@ import com.example.E_care.Utilisateurs.models.Administrateur;
 import com.example.E_care.Utilisateurs.models.Apprenant;
 import com.example.E_care.Utilisateurs.models.User;
 import com.example.E_care.Alerte.config.AlerteSocketController;
+import com.example.E_care.Alerte.dto.InterventionDto;
 import com.example.E_care.Alerte.model.Alerte;
 import com.example.E_care.Alerte.model.Intervention;
 import com.example.E_care.Alerte.model.Statut;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +43,26 @@ public class InterventionImpl implements InterventionService{
 
 
     @Override
-    public List<Intervention> findAllByAdmin(User user) {
+    public List<InterventionDto> findAllByAdmin(User user) {
         Administrateur admin = (Administrateur) user;
         Hopital hopital = admin.getHopital();
-        return this.interventionRepository.findByHopital(hopital);
+        List<Intervention> interventions = this.interventionRepository.findByHopital(hopital);
+        List<InterventionDto> interventionDtos = new ArrayList<>();
+        for (Intervention intervention : interventions) {
+            InterventionDto dto = new InterventionDto();
+            dto.setId(intervention.getId());
+            dto.setAlerteId(intervention.getAlerte().getId());
+            dto.setStatutIntervention(intervention.getStatut());
+            dto.setDate(intervention.getDate());
+            dto.setTitre(intervention.getAlerte().getTitre());
+            dto.setContenu(intervention.getAlerte().getContenu());
+            dto.setLocalisation(intervention.getAlerte().getLocalisation());
+            dto.setUserId(intervention.getAlerte().getUser().getId());
+            dto.setHopital(hopital.getNom());
+            interventionDtos.add(dto);
+        }
+
+        return interventionDtos;
     }
 
     @Override
@@ -54,7 +72,6 @@ public class InterventionImpl implements InterventionService{
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Intervention> findAllByUser(User user) {
         Apprenant apprenant= (Apprenant) user;
         return this.interventionRepository.findInterventionsByUser(apprenant);

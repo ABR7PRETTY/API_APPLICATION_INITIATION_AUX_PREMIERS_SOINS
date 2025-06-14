@@ -1,5 +1,6 @@
 package com.example.E_care.Alerte.service;
 
+import com.example.E_care.Alerte.dto.InterventionDto;
 import com.example.E_care.Alerte.model.Intervention;
 import com.example.E_care.Utilisateurs.models.User;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service(value = "interventionService")
 public interface InterventionService {
-    public List<Intervention> findAllByAdmin(User user);
+    public List<InterventionDto> findAllByAdmin(User user);
 
     public List<Intervention> findAllByUser(User user);
 
