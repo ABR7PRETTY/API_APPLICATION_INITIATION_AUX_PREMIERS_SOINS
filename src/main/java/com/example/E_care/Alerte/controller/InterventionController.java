@@ -48,7 +48,7 @@ public class InterventionController{
     }
 
     @GetMapping(value = "/findAll", headers = "Accept=application/json")
-    @Transactional(readOnly = true)
+    @Transactional
     public ResponseEntity<List<Intervention>> findAll() {
         List<Intervention> interventions = interventionService.findAll();
         
@@ -96,7 +96,7 @@ public class InterventionController{
     }
 
     @GetMapping(value = "/findAllByHopital/{id}", headers = "Accept=application/json")
-    @Transactional(readOnly = true)
+    @Transactional
     public ResponseEntity<List<Intervention>> findAllByHopital(@PathVariable Long id) {
         List<Intervention> interventions = interventionService.findByHopital(id);
         
@@ -105,7 +105,7 @@ public class InterventionController{
     
 
 @PostMapping(value = "/accepter/{id}", headers = "Accept=application/json")
-@Transactional(readOnly = true)
+@Transactional
 public ResponseEntity<?> accepterIntervention(@PathVariable Long id, Authentication authentication) {
     User user = userRepository.findByUsername(authentication.getName()).get();
     try {
@@ -121,7 +121,7 @@ public ResponseEntity<?> accepterIntervention(@PathVariable Long id, Authenticat
 }
 
 @PostMapping(value = "/interompre/{id}", headers = "Accept=application/json")
-@Transactional(readOnly = true)
+@Transactional
 public ResponseEntity<?> refuserIntervention(@PathVariable Long id) {
     try {
         Intervention intervention = this.interventionService.interompreIntervention(id);
@@ -136,7 +136,7 @@ public ResponseEntity<?> refuserIntervention(@PathVariable Long id) {
 }
 
 @PostMapping(value = "/reprendre/{id}", headers = "Accept=application/json")
-@Transactional(readOnly = true)
+@Transactional
 public ResponseEntity<?> reprendreIntervention(@PathVariable Long id) {
     try {
         Intervention intervention = this.interventionService.reprendreIntervention(id);
@@ -151,7 +151,7 @@ public ResponseEntity<?> reprendreIntervention(@PathVariable Long id) {
 }
 
 @PostMapping(value = "/achever/{id}", headers = "Accept=application/json")
-@Transactional(readOnly = true)
+@Transactional
 public ResponseEntity<?> acheverIntervention(@PathVariable Long id) {
     try {
         Intervention intervention = this.interventionService.acheverIntervention(id);

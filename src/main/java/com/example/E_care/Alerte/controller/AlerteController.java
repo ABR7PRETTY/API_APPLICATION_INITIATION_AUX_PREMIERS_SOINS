@@ -45,7 +45,7 @@ public class AlerteController{
     private UserDao userRepository;
 
     @GetMapping(value = "/findAll", headers = "Accept=application/json")
-    @Transactional(readOnly = true)
+    @Transactional
     public ResponseEntity<List<Map<String, Object>>> findAll() {
         List<Alerte> alertes = alerteService.findAll();
         List<Map<String, Object>> responseList = new ArrayList<>();
@@ -102,7 +102,7 @@ public class AlerteController{
     
 
     @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Transactional(readOnly = true)
+    @Transactional
     public Alerte update(@PathVariable Long id,
      @RequestParam String titre,
      @RequestParam String contenu,
@@ -129,7 +129,7 @@ public class AlerteController{
     }
 
     @DeleteMapping(value = "/delete/{id}", headers = "Accept=application/json")
-    @Transactional(readOnly = true)
+    @Transactional
     public ResponseEntity<?>delete(@PathVariable Long id){
         try{
             Boolean result = this.alerteService.deleteById(id);

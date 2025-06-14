@@ -56,7 +56,7 @@ public class AuthController {
     private HopitalDao hopitalDao;
 
     @PostMapping("/login")
-    @Transactional(readOnly = true)
+    @Transactional
     public ResponseEntity<Map<String, String>> authenticateUser(@RequestBody LoginDto loginDto) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -203,7 +203,6 @@ public class AuthController {
     }
 
     @GetMapping("/countUsers")
-    @Transactional(readOnly = true)
     public Long getTotalUsers() {
         return this.userRepository.count();
     }
@@ -238,7 +237,6 @@ public class AuthController {
     }
 
     @GetMapping(value = "/findAllApprenants", headers = "Accept=application/json")
-    @Transactional(readOnly = true)
     public ResponseEntity<List<Map<String, Object>>> findAllApprenants() {
         List<Apprenant> users = userRepository.findAllApprenants();
         List<Map<String, Object>> responseList = new ArrayList<>();
