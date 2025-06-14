@@ -37,7 +37,7 @@ public class AlerteImpl implements AlerteService {
     private MediaDao mediaDao;
 
     @Override
-    @Transactional(readOnly = true)
+    
     public List<Alerte> findAll() {
         return this.alerteRepository.findActiveAlertes();
     }
