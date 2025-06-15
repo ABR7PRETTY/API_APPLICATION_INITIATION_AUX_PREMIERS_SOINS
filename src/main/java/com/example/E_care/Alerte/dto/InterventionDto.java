@@ -12,7 +12,7 @@ import lombok.Setter;
 public class InterventionDto {
     
     private Long id;
-    private Long AlerteId;
+    private Long alerteId;
     private String titre;
     private String contenu;
     private String localisation;
